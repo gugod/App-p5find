@@ -4,6 +4,7 @@ our $VERSION = "0.01";
 
 use File::Next;
 use PPI::Document::File;
+use PPIx::QuoteLike;
 
 use Exporter 'import';
 our @EXPORT_OK = qw( p5_doc_iterator
