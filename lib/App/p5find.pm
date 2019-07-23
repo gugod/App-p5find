@@ -1,6 +1,6 @@
 package App::p5find;
 use v5.18;
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use File::Next;
 use PPI::Document::File;
