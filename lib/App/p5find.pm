@@ -17,8 +17,8 @@ my %EXCLUDED = (
 );
 
 sub p5_doc_iterator {
-    my ($dir) = @_;
-    my $files = p5_source_file_iterator($dir);
+    my (@paths) = @_;
+    my $files = p5_source_file_iterator(@paths);
     return sub {
         my $f = $files->();
         return undef unless defined($f);
@@ -29,10 +29,10 @@ sub p5_doc_iterator {
 }
 
 sub p5_source_file_iterator {
-    my ($dir) = @_;
+    my (@paths) = @_;
     my $files = File::Next::files(
         +{ descend_filter => sub { ! $EXCLUDED{$_} } },
-        $dir
+        @paths
     );
     return sub {
         my $f;
