@@ -1,11 +1,8 @@
 #!/usr/bin/env perl
 use v5.18;
 
-use PPI;
-use PPI::Document;
 use Getopt::Long;
-
-use App::p5find qw(p5_source_file_iterator);
+use App::p5find qw(p5_doc_iterator);
 
 sub print_usage {
     print <<USAGE;
@@ -31,12 +28,10 @@ my @args = @ARGV;
 @args = (".") unless @args;
 
 for my $dir (@args) {
-    my $files = p5_source_file_iterator($dir);
-    while ( defined ( my $file = $files->() ) ) {
-        my $doc = PPI::Document->new($file);
-        $doc->index_locations;
-
+    my $iter = p5_doc_iterator($dir);
+    while ( defined ( my $doc = $iter->() ) ) {
         my $regexps = $doc->find("PPI::Token::Regexp") or next;
+        my $file = $doc->filename;
 
         if ($opts{o}) {
             for my $it (@$regexps) {
