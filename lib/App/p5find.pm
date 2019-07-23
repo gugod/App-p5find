@@ -1,7 +1,8 @@
 package App::p5find;
 use v5.18;
-use File::Next;
+our $VERSION = "0.01";
 
+use File::Next;
 use Exporter 'import';
 our @EXPORT_OK = qw(p5_source_file_iterator);
 
@@ -37,3 +38,23 @@ sub is_perl5_source_file {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+App::p5find - XXX
+
+=head1 DESCRIPTION
+
+A set of programs for locating certain constructs in Perl5 code.
+
+=head1 AUTHOR
+
+Kang-min Liu
+
+=head1 LICENSE
+
+MIT
+
+=cut
