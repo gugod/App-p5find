@@ -14,7 +14,7 @@ my %EXCLUDED = (
     '.git' => 1,
     '.svn' => 1,
     'CVS'  => 1,
-    'node_modules' => 1,
+    'node_modules' => 1, # You won't hide your Perl5 code there, right ?
 );
 
 sub p5_doc_iterator {
@@ -59,15 +59,21 @@ __END__
 
 =head1 NAME
 
-App::p5find - XXX
+App::p5find - A collection of programs for locating certain constructs in Perl5 code.
 
 =head1 DESCRIPTION
 
-A set of programs for locating certain constructs in Perl5 code.
+This distribution provides a collection of programs that search through Perl5
+code structure for certain patterns. Such as: string literals with
+interpolations, bareword tokens, vairable in method names.
+
+While those code patterns may be discoverable with sufficient amount of
+ack/grep-fu, this projects aims to reduce the amount of false recalls to the
+point that it becomes usefull for tasks such as hunting for anti-patterns.
 
 =head1 AUTHOR
 
-Kang-min Liu
+Kang-min Liu <gugod@gugod.org>
 
 =head1 LICENSE
 
