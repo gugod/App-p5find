@@ -15,15 +15,16 @@ name: App-p5find
 provides:
   App::p5find:
     file: lib/App/p5find.pm
-    version: '0.01'
+    version: '0.02'
 requires:
   File::Next: '0'
   PPI: '0'
+  PPIx::QuoteLike: '0'
   Test2::V0: '0'
 resources:
   bugtracker: https://github.com/gugod/App-p5find/issues
   repository: https://github.com/gugod/App-p5find.git
-version: '0.01'
+version: '0.02'
 x_serialization_backend: 'CPAN::Meta::YAML version 0.018'
 x_spdx_expression: MIT
 x_static_install: '1'

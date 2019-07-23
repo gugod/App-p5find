@@ -28,6 +28,7 @@
          "requires" : {
             "File::Next" : "0",
             "PPI" : "0",
+            "PPIx::QuoteLike" : "0",
             "Test2::V0" : "0"
          }
       }
@@ -35,7 +36,7 @@
    "provides" : {
       "App::p5find" : {
          "file" : "lib/App/p5find.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -49,7 +50,7 @@
          "web" : "https://github.com/gugod/App-p5find"
       }
    },
-   "version" : "0.01",
+   "version" : "0.02",
    "x_serialization_backend" : "JSON::PP version 2.97001",
    "x_spdx_expression" : "MIT",
    "x_static_install" : "1"
