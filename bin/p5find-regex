@@ -1,0 +1,65 @@
+#!/usr/bin/env perl
+use v5.18;
+
+use PPI;
+use PPI::Document;
+use Getopt::Long;
+
+use App::p5find qw(p5_source_file_iterator);
+
+sub print_usage {
+    print <<USAGE;
+Usage: p5find-regex [switches] [--] [dir...]
+  -h    show
+  -o    Print only the matching regex
+USAGE
+}
+
+my %opts;
+GetOptions(
+    \%opts,
+    "h", # No op
+    "o", # Print only the Regexp, not the entire line.
+);
+
+if ($opts{h}) {
+    print_usage();
+    exit(0);
+}
+
+my @args = @ARGV;
+@args = (".") unless @args;
+
+for my $dir (@args) {
+    my $files = p5_source_file_iterator($dir);
+    while ( defined ( my $file = $files->() ) ) {
+        my $doc = PPI::Document->new($file);
+        $doc->index_locations;
+
+        my $regexps = $doc->find("PPI::Token::Regexp") or next;
+
+        if ($opts{o}) {
+            for my $it (@$regexps) {
+                my $ln = $it->line_number;
+                print "${file}:${ln}:\t$it\n";
+            }
+
+        } else {
+            my %matched;
+            for my $it (@$regexps) {
+                my $ln = $it->line_number;
+                $matched{$ln} = 1;
+            }
+
+            my $line_number = 0;
+            open my $fh, "<", $file;
+            while (my $line = <$fh>) {
+                $line_number++;
+                if ($matched{$line_number}) {
+                    print "${file}:${line_number}:${line}";
+                }
+            }
+            close($fh);
+        }
+    }
+}
