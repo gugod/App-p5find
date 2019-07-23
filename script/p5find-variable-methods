@@ -1,6 +1,27 @@
 #!/usr/bin/env perl
 use v5.18;
+use Getopt::Long qw(GetOptions);
 use App::p5find qw(p5_doc_iterator);
+
+
+sub print_usage {
+    print <<USAGE;
+p5find-variable-methods [switches] -- [path1] [path2]...
+
+  -h    show help message
+USAGE
+}
+
+my %opts;
+GetOptions(
+    \%opts,
+    "h",
+);
+
+if ($opts{h}) {
+    print_usage();
+    exit(0);
+}
 
 my @paths = @ARGV;
 @paths = ('.') unless @paths;

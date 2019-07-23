@@ -7,7 +7,7 @@ use App::p5find qw(p5_doc_iterator);
 sub print_usage {
     print <<USAGE;
 Usage: p5find-regex [switches] [--] [dir...]
-  -h    show
+  -h    show this help message.
   -o    Print only the matching regex
 USAGE
 }

@@ -4,6 +4,25 @@ use v5.18;
 use App::p5find qw(p5_doc_iterator);
 use Getopt::Long;
 
+sub print_usage {
+    print <<USAGE;
+p5find-token-word [switches] word [path1] [path2]...
+
+  -h    show help message
+USAGE
+}
+
+my %opts;
+GetOptions(
+    \%opts,
+    "h",
+);
+
+if ($opts{h}) {
+    print_usage();
+    exit(0);
+}
+
 my $word = shift(@ARGV);
 my @paths = @ARGV;
 @paths = ('.') unless @paths;

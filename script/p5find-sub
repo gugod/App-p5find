@@ -7,10 +7,23 @@ use Getopt::Long 'GetOptions';
 
 my ($wanted_sub_name, @paths) = @ARGV;
 
-unless ($wanted_sub_name) {
-    die <<USAGE;
-p5-find-sub name [path1] [path2]...
+sub print_usage {
+    print <<USAGE;
+p5find-sub [switches] name [path1] [path2]...
+
+  -h    show help message
 USAGE
+}
+
+my %opts;
+GetOptions(
+    \%opts,
+    "h",
+);
+
+if ($opts{h}) {
+    print_usage();
+    exit(0);
 }
 
 @paths = ('.') unless @paths;

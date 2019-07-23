@@ -10,14 +10,33 @@ use constant {
     F_CONCATENATION    => 0b00000010,
 };
 
+sub print_usage {
+    print <<USAGE;
+Usage: p5find-str [switches] [--] [dir...]
+  -h    show this help message.
+
+  --with-interpolation     Find Str with interpolations
+  --without-interpolation  Find Str without interpolation
+  --with-concatenation     Find Str with concatenation
+  --without-concatenation  Find Str without concatenation
+
+USAGE
+}
+
 my %opts;
 GetOptions(
     \%opts,
+    "h",
     "with-interpolation",
     "without-interpolation",
     "with-concatenation",
     "without-concatenation",
 );
+
+if ($opts{h}) {
+    print_usage();
+    exit(0);
+}
 
 my @paths = @ARGV;
 @paths = ('.') unless @paths;
