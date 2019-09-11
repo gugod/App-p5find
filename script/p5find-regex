@@ -17,7 +17,8 @@ a regular expression matching all regular expressions.
 This program p5find-regexp locates regular expressions in perl source code
 under the given path.
 
-The output should be compatible to C<grep -Hnr>. Each line consists of colon-separated fields of filename, line number, and the content of that line.
+The output format should be compatible to C<grep -Hnr>. Each line consists of
+colon-separated fields of filename, line number, and the content of that line.
 
 Here's a partial result of regexes found in perlbrew source code.
 
