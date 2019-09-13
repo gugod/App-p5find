@@ -31,7 +31,7 @@ Here's the result of searching variable method in perlbrew repository:
 =cut
 
 use Getopt::Long qw(GetOptions);
-use App::p5find qw(p5_doc_iterator);
+use App::p5find qw(p5_doc_iterator print_file_linenum_line);
 
 sub print_usage {
     print <<USAGE;
@@ -86,14 +86,6 @@ while( my $doc = $iter->() ) {
     }
 
     if (%hits) {
-        my $line_number = 0;
-        open my $fh, "<", $file;
-        while (my $line = <$fh>) {
-            $line_number++;
-            if ($hits{$line_number}) {
-                print "${file}:${line_number}:${line}";
-            }
-        }
-        close($fh);
+        print_file_linenum_line( $file, \%hits );
     }
 };

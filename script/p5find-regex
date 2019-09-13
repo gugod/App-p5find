@@ -58,7 +58,7 @@ programatically by piping to C<cut -f 2->:
 use v5.18;
 
 use Getopt::Long;
-use App::p5find qw(p5_doc_iterator);
+use App::p5find qw(p5_doc_iterator print_file_linenum_line);
 
 sub print_usage {
     print <<USAGE;
@@ -104,15 +104,7 @@ for my $dir (@args) {
                 $matched{$ln} = 1;
             }
 
-            my $line_number = 0;
-            open my $fh, "<", $file;
-            while (my $line = <$fh>) {
-                $line_number++;
-                if ($matched{$line_number}) {
-                    print "${file}:${line_number}:${line}";
-                }
-            }
-            close($fh);
+            print_file_linenum_line( $file, \%matched );
         }
     }
 }
