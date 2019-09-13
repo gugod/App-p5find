@@ -1,15 +1,15 @@
 #!/usr/bin/env perl
 use v5.18;
 
-use App::p5find qw<p5_doc_iterator>;
+use App::p5find qw<p5_doc_iterator print_file_linenum_line>;
 
 use Getopt::Long 'GetOptions';
 
 sub print_usage {
     print <<USAGE;
-p5find-sub [switches] name [path1] [path2]...
-
-  -h    show help message
+p5find-sub [switches] [path1] [path2]...
+  -h        show help message
+  --name    specify the name of subroutine.
 
 For more documentation, see: perldoc p5find-sub
 USAGE
@@ -19,7 +19,7 @@ my %opts;
 GetOptions(
     \%opts,
     "h",
-    "a|all"
+    "name=s",
 );
 
 if ($opts{h}) {
@@ -29,8 +29,8 @@ if ($opts{h}) {
 
 my ($wanted_sub_name, @paths);
 
-unless ($opts{a}) {
-    $wanted_sub_name = shift @ARGV;
+if ($opts{name}) {
+    $wanted_sub_name = $opts{name};
 }
 
 @paths = @ARGV;
@@ -57,21 +57,14 @@ while (my $doc = $iter->()) {
         # $token is the word "sub"
         my $el = $token->parent;
         my $sub_name = $el->isa("PPI::Statement::Sub") ? $el->name : "(anonymous)";
-        if ( $opts{a} || $wanted_sub_name eq $sub_name ) {
+
+        if ( !defined($wanted_sub_name) || $wanted_sub_name eq $sub_name ) {
             my $ln = $token->line_number;
             $hits{$ln} = 1;
         }
     }
 
     if (%hits) {
-        my $line_number = 0;
-        open my $fh, "<", $file;
-        while (my $line = <$fh>) {
-            $line_number++;
-            if ($hits{$line_number}) {
-                print "${file}:${line_number}:${line}";
-            }
-        }
-        close($fh);
+        print_file_linenum_line( $file, \%hits );
     }
 }
