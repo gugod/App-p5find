@@ -60,16 +60,16 @@ while( my $doc = $iter->() ) {
     my $arrows = $doc->find(
         sub {
             my $op = $_[1];
-            return ($op->isa("PPI::Token::Operator") &&
-                    $op->content eq '->')
+            return 0 unless $op->isa("PPI::Token::Operator") && $op->content eq '->';
+            my $op_next = $op->snext_sibling or return 0;
+            return 0 if $op_next->isa("PPI::Structure::Subscript") || $op_next->isa("PPI::Structure::List");
+            return 1;
         }
     ) or next;
 
     my %hits;
     for (my $i = 0; $i < @$arrows; $i++) {
         my $op = $arrows->[$i];
-        my $op_next = $op->snext_sibling;
-        next if $op_next->isa("PPI::Structure::Subscript") || $op_next->isa("PPI::Structure::List");
         my $ln = $op->line_number;
         $hits{$ln} = 1;
     }
