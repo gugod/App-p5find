@@ -31,7 +31,7 @@ Here's the result of searching variable method in perlbrew repository:
 =cut
 
 use Getopt::Long qw(GetOptions);
-use App::p5find qw(p5_doc_iterator print_file_linenum_line);
+use App::p5find qw(p5_doc_iterator p5_method_call_iterator print_file_linenum_line);
 
 sub print_usage {
     print <<USAGE;
@@ -61,19 +61,11 @@ my $iter = p5_doc_iterator(@paths);
 while( my $doc = $iter->() ) {
     my $file = $doc->filename;
 
-    my $arrows = $doc->find(
-        sub {
-            my $op = $_[1];
-            return ($op->isa("PPI::Token::Operator") &&
-                    $op->content eq '->')
-        }
-    ) or next;
-
     my %hits;
-    for (my $i = 0; $i < @$arrows; $i++) {
-        my $op = $arrows->[$i];
+    my $method_calls = p5_method_call_iterator($doc);
+    while (my $op = $method_calls->()) {
         my $op_next = $op->snext_sibling;
-        next if $op_next->isa("PPI::Token::Word") || $op_next->isa("PPI::Structure::Subscript") || $op_next->isa("PPI::Structure::List");
+        next if $op_next->isa("PPI::Token::Word");
 
         # Weird case from PPI. Consider this code:
         #     $a = $b ? $o->foo : 1;

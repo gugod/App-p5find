@@ -27,7 +27,7 @@ use v5.18;
 use warnings;
 
 use Getopt::Long qw(GetOptions);
-use App::p5find qw(p5_doc_iterator print_file_linenum_line);
+use App::p5find qw(p5_doc_iterator p5_method_call_iterator print_file_linenum_line);
 
 sub print_usage {
     print <<USAGE;
@@ -56,20 +56,10 @@ my @paths = @ARGV;
 my $iter = p5_doc_iterator(@paths);
 while( my $doc = $iter->() ) {
     my $file = $doc->filename;
-
-    my $arrows = $doc->find(
-        sub {
-            my $op = $_[1];
-            return 0 unless $op->isa("PPI::Token::Operator") && $op->content eq '->';
-            my $op_next = $op->snext_sibling or return 0;
-            return 0 if $op_next->isa("PPI::Structure::Subscript") || $op_next->isa("PPI::Structure::List");
-            return 1;
-        }
-    ) or next;
-
     my %hits;
-    for (my $i = 0; $i < @$arrows; $i++) {
-        my $op = $arrows->[$i];
+
+    my $method = p5_method_call_iterator($doc);
+    while (my $op = $method->()) {
         my $ln = $op->line_number;
         $hits{$ln} = 1;
     }

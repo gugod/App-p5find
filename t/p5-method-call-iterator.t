@@ -21,4 +21,17 @@ subtest p5_method_call_iterator => sub {
     is \@method_names, [ 'compute', '$meh' ];
 };
 
+subtest 'no method calls' => sub {
+    my $code = 'sub foo_and_bar { $o->{foo} && $o->{bar} }';
+    my $doc = PPI::Document->new( \$code );
+
+    my $methods = 0;
+    my $iter = p5_method_call_iterator($doc);
+    while (my $tok = $iter->()) {
+        $methods++;
+    }
+
+    is $methods, 0;
+};
+
 done_testing;
