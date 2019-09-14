@@ -5,7 +5,7 @@ p5find-sub is a program to find subroutine definitions in your perl5 code.
 When invoked, it simply prints the location all subroutines, including the
 name-less ones.
 
-=head1 Usage Example
+=head1 Examples
 
 Here is a partial result for perlbrew repository:
 

@@ -3,7 +3,7 @@
 
 p5find-method-call is a program to find method invocations.
 
-=head1 Usage Examples
+=head1 Examples
 
 The output format should be compatible to C<grep -Hnr>. Each line consists of
 colon-separated fields of filename, line number, and the content of that line.
