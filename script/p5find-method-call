@@ -33,8 +33,9 @@ sub print_usage {
     print <<USAGE;
 p5find-variable-methods [switches] -- [path1] [path2]...
 
-  -h    show help message
-  --var Only the ones with variable names.
+  -h              show help message
+  --var           Only the ones with variable names.
+  --name <string> Only the ones with this particular name.
 
 For more documentation, see: perldoc p5find-method-call
 USAGE
@@ -45,6 +46,7 @@ GetOptions(
     \%opts,
     "h",
     "var",
+    "name=s",
 );
 
 if ($opts{h}) {
@@ -62,8 +64,9 @@ while( my $doc = $iter->() ) {
 
     my $method = p5_method_call_iterator($doc);
     while (my $op = $method->()) {
+        my $op_next = $op->snext_sibling;
+
         if ($opts{"var"}) {
-            my $op_next = $op->snext_sibling;
             next if $op_next->isa("PPI::Token::Word");
 
             # Weird case from PPI. Consider this code:
@@ -71,6 +74,10 @@ while( my $doc = $iter->() ) {
             # The "foo :" part is parsed as one token. Which is wrong.
             # Luckly it does not remove positive responoses if we exclude those here.
             next if $op_next->isa("PPI::Token::Label");
+        }
+
+        if ($opts{"name"}) {
+            next unless $op_next eq $opts{"name"};
         }
 
         my $ln = $op->line_number;
