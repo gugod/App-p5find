@@ -92,7 +92,7 @@ while (my $doc = $iter->()) {
         if ($opts{contains}) {
             if (my @tok = grep { $_->significant } $el->tokens) {
                 for my $tok (@tok) {
-                    if (index("$tok", $opts{contains}) >= 0) {
+                    if ("$tok" eq $opts{contains}) {
                         $hit = 1;
                         last;
                     }
