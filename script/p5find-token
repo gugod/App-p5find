@@ -6,7 +6,7 @@ use Getopt::Long;
 
 sub print_usage {
     print <<USAGE;
-p5find-token-word [switches] word [path1] [path2]...
+p5find-token [switches] token [path1] [path2]...
 
   -h    show help message
 USAGE
@@ -33,7 +33,7 @@ while ( defined ( my $doc = $iter->() ) ) {
     my $tokens = $doc->find(
         sub {
             my $op = $_[1];
-            return ($op->isa("PPI::Token::Word") && $op->content eq $word)
+            return ($op->isa("PPI::Token") && $op->content eq $word)
         }
     ) or next;
 
