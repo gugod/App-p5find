@@ -7,7 +7,7 @@ steps:
       - clone
     image: gugod/perlcritic-reviewdog:latest
     commands:
-      - perlcritic --quiet lib t dev-bin
+      - perlcritic --quiet lib t script
 
   - name: Test
     image: perl:5.28.0
