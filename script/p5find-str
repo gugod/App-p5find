@@ -71,7 +71,6 @@ while ( defined ( my $doc = $iter->() ) ) {
         open my $fh, "<", $file;
         while (my $line = <$fh>) {
             $line_number++;
-            my $to_print;
             if ($matched{$line_number}) {
                 my $print_it = 1;
                 if ($opts{'with-interpolation'} && !($feature{$line_number} & F_INTERPOLATION) ) {
