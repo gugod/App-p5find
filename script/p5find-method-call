@@ -5,7 +5,7 @@ p5find-method-call is a program to find method invocations.
 
 =head1 Examples
 
-The output format should be compatible to C<grep -Hnr>. Each line consists of
+The output is formatted like the output of C<grep -Hnr>. Each line consists of
 colon-separated fields of filename, line number, and the content of that line.
 
 Here's the result of searching for method calls in perlbrew repository:
@@ -21,6 +21,7 @@ Here's the result of searching for method calls in perlbrew repository:
     lib/App/Perlbrew/Path/Installations.pm:23:	shift->_children ('App::Perlbrew::Path::Installation' => @_);
     lib/App/Perlbrew/Path/Installations.pm:27:	shift->children;
     lib/App/Perlbrew/Path/Root.pm:13:	shift->child (bin => @_);
+
 =cut
 
 use v5.18;
