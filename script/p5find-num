@@ -1,13 +1,13 @@
 #!/usr/bin/env perl
 use v5.18;
 
-use App::p5find qw<p5_doc_iterator>;
+use App::p5find qw<p5_doc_iterator print_file_linenum_line>;
 
 use Getopt::Long;
 
 sub print_usage {
     print <<USAGE;
-Usage: p5find-str [switches] [--] [dir...]
+Usage: p5find-num [switches] [--] [dir...]
   -h    show this help message.
 
 USAGE
@@ -37,17 +37,7 @@ while ( defined ( my $doc = $iter->() ) ) {
     }
 
     if (%matched) {
-        my $file = $doc->filename;
-
-        my $line_number = 0;
-        open my $fh, "<", $file;
-        while (my $line = <$fh>) {
-            $line_number++;
-            if ($matched{$line_number}) {
-                print "${file}:${line_number}:${line}";
-            }
-        }
-        close($fh);
+        print_file_linenum_line($doc->filename, \%matched);
     }
 }
 
