@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
-use v5.18;
+use v5.20;
 
-use App::p5find qw<p5_doc_iterator p5_find_iterator print_file_linenum_line>;
+use feature qw(signatures);
+no warnings qw(experimental::signatures);
+
+use App::p5find qw<iter_each p5_doc_iterator p5_find_iterator print_file_linenum_line>;
 
 use Getopt::Long;
 
@@ -27,21 +30,22 @@ if ($opts{h}) {
 my @paths = @ARGV;
 @paths = ('.') unless @paths;
 
-my $iter = p5_doc_iterator(@paths);
-while ( defined ( my $doc = $iter->() ) ) {
-    my $num_iter = p5_find_iterator($doc, sub { $_[1]->isa("PPI::Token::Number") });
+iter_each(
+    p5_doc_iterator(@paths),
+    sub ($doc) {
+        my %matched;
+        iter_each(
+            p5_find_iterator($doc, sub { $_[1]->isa("PPI::Token::Number") }),
+            sub ($num) {
+                $matched{ $num->line_number } = 1;
+            }
+        );
 
-    my %matched;
-    while (my $num = $num_iter->()) {
-        my $ln = $num->line_number;
-        $matched{$ln} = 1;
+        if (%matched) {
+            print_file_linenum_line($doc->filename, \%matched);
+        }
     }
-
-    if (%matched) {
-        print_file_linenum_line($doc->filename, \%matched);
-    }
-}
-
+);
 
 __END__
 

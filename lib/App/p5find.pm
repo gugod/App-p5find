@@ -9,11 +9,14 @@ use PPI::Document::File;
 use PPIx::QuoteLike;
 
 use Exporter 'import';
-our @EXPORT_OK = qw( p5_doc_iterator
-                     p5_find_iterator
-                     p5_source_file_iterator
-                     p5_method_call_iterator
-                     print_file_linenum_line );
+our @EXPORT_OK = qw(
+                       p5_doc_iterator
+                       p5_find_iterator
+                       p5_source_file_iterator
+                       p5_method_call_iterator
+                       print_file_linenum_line
+                       iter_each
+               );
 
 my %EXCLUDED = (
     '.git' => 1,
@@ -95,6 +98,13 @@ sub p5_find_iterator {
     my $found = $doc->find($cb) || [];
     return sub {
         @$found ? shift(@$found) : undef
+    }
+}
+
+sub iter_each {
+    my ($iter, $cb) = @_;
+    while (my $it = $iter->()) {
+        last unless defined $cb->($it);
     }
 }
 
