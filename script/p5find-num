@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use v5.18;
 
-use App::p5find qw<p5_doc_iterator print_file_linenum_line>;
+use App::p5find qw<p5_doc_iterator p5_find_iterator print_file_linenum_line>;
 
 use Getopt::Long;
 
@@ -29,10 +29,11 @@ my @paths = @ARGV;
 
 my $iter = p5_doc_iterator(@paths);
 while ( defined ( my $doc = $iter->() ) ) {
-    my %feature;
+    my $num_iter = p5_find_iterator($doc, sub { $_[1]->isa("PPI::Token::Number") });
+
     my %matched;
-    for (@{ $doc->find(sub { $_[1]->isa("PPI::Token::Number") }) ||[]}) {
-        my $ln = $_->line_number;
+    while (my $num = $num_iter->()) {
+        my $ln = $num->line_number;
         $matched{$ln} = 1;
     }
 
