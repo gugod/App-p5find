@@ -2,7 +2,7 @@ package App::p5find;
 use v5.18;
 use warnings;
 
-our $VERSION = "0.04";
+our $VERSION = "0.05";
 
 use File::Next;
 use PPI::Document::File;
