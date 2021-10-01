@@ -85,12 +85,12 @@ iter_each(
             while (my $line = <$fh>) {
                 $line_number++;
                 if ($matched{$line_number}) {
-                    my $print_it = (
+                    my $print_it = ! (
                         ($opts{'with-interpolation'}    && !($feature{$line_number} & F_INTERPOLATION) ) ||
                         ($opts{'without-interpolation'} && ($feature{$line_number} & F_INTERPOLATION) ) ||
                         ($opts{'with-concatenation'}    && !($feature{$line_number} & F_CONCATENATION) ) ||
                         ($opts{'without-concatenation'} && ($feature{$line_number} & F_CONCATENATION))
-                    ) ? 0 : 1;
+                    );
 
                     if ($print_it) {
                         print "${file}:${line_number}:${line}";
