@@ -61,7 +61,7 @@ iter_each(
             p5_find_iterator($doc, sub { $_[1]->isa("PPI::Token::Quote::Double") }),
             sub ($it) {
                 my $ln = $it->line_number;
-                if (/[\$&@%]/) {
+                if ($it->interpolations) {
                     $feature{$ln} |= F_INTERPOLATION;
                 }
                 $matched{$ln} = 1;
@@ -85,19 +85,13 @@ iter_each(
             while (my $line = <$fh>) {
                 $line_number++;
                 if ($matched{$line_number}) {
-                    my $print_it = 1;
-                    if ($opts{'with-interpolation'} && !($feature{$line_number} & F_INTERPOLATION) ) {
-                        $print_it = 0;
-                    }
-                    if ($opts{'without-interpolation'} && ($feature{$line_number} & F_INTERPOLATION) ) {
-                        $print_it = 0;
-                    }
-                    if ($opts{'with-concatenation'} && !($feature{$line_number} & F_CONCATENATION) ) {
-                        $print_it = 0;
-                    }
-                    if ($opts{'without-concatenation'} && ($feature{$line_number} & F_CONCATENATION)) {
-                        $print_it = 0;
-                    }
+                    my $print_it = (
+                        ($opts{'with-interpolation'}    && !($feature{$line_number} & F_INTERPOLATION) ) ||
+                        ($opts{'without-interpolation'} && ($feature{$line_number} & F_INTERPOLATION) ) ||
+                        ($opts{'with-concatenation'}    && !($feature{$line_number} & F_CONCATENATION) ) ||
+                        ($opts{'without-concatenation'} && ($feature{$line_number} & F_CONCATENATION))
+                    ) ? 0 : 1;
+
                     if ($print_it) {
                         print "${file}:${line_number}:${line}";
                     }
