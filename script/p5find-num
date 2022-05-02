@@ -1,4 +1,20 @@
 #!/usr/bin/env perl
+=head1 Abstract
+
+p5find-num is a program for finding numerical literals
+
+=head1 Description
+
+Numerical literlas are tokens that looks like:
+
+    1234       # decimal integer
+    0b1110011  # binary integer
+    01234      # octal integer
+    0x1234     # hexadecimal integer
+
+=cut
+
+
 use v5.20;
 
 use feature qw(signatures);
@@ -46,12 +62,3 @@ iter_each(
         }
     }
 );
-
-__END__
-
-=head1 Usage
-
-This program parse perl code and find the lines with numbers it. It is
-similar to "grep", but specialized for findding numerical literals.
-
-=cut
