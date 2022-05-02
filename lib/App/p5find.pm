@@ -32,6 +32,7 @@ sub p5_doc_iterator {
         my $f = $files->();
         return undef unless defined($f);
         my $dom = PPI::Document::File->new( $f, readonly => 1 );
+        return undef unless defined($dom);
         $dom->index_locations;
         return $dom;
     };
