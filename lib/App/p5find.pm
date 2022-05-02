@@ -127,6 +127,29 @@ While those code patterns may be discoverable with sufficient amount of
 ack/grep-fu, this projects aims to reduce the amount of false recalls to the
 point that it becomes usefull for tasks such as hunting for anti-patterns.
 
+=head1 The p5find command
+
+This distribution gives you a dozen of commands, all named like
+C<p5find-something>, as well as master command name just
+C<p5find>. The command name usually refer to a type of object or code
+pattern that can be located by running that command. For example,
+C<p5find-num> would list up all number literals, while C<p5find-str>
+would list up all string literals.
+
+Except for a few special ones, running all p5find commands would start
+iterating all perl source find under current working directory then
+looking for the specified code pattern.
+
+For example, to locate string literals, run: C<p5find str> (or
+C<p5find-str>). To see all options of the command, pass C<-h>.
+Or for slightly more reading materials, run C<perldoc p5find-str>.
+
+Conventionally the documentation all p5find commands can be revealed
+by invoking it with C<-h>, or by running C<perldoc> on it.
+
+To start understanding the usages of p5find, run: C<p5find
+help>, or C<p5find-help>
+
 =head1 AUTHOR
 
 Kang-min Liu <gugod@gugod.org>
