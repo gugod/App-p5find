@@ -20,7 +20,7 @@ use v5.20;
 use feature qw(signatures);
 no warnings qw(experimental::signatures);
 
-use App::p5find qw<iter_each p5_doc_iterator p5_find_iterator print_file_linenum_line>;
+use App::p5find qw<iter_each p5_doc_iterator p5_find_iterator print_file_linenum_line print_only_matching>;
 
 use Getopt::Long;
 
@@ -36,6 +36,7 @@ my %opts;
 GetOptions(
     \%opts,
     "h",
+    "o|only-matching",
 );
 
 if ($opts{h}) {
@@ -53,12 +54,17 @@ iter_each(
         iter_each(
             p5_find_iterator($doc, sub { $_[1]->isa("PPI::Token::Number") }),
             sub ($num) {
-                $matched{ $num->line_number } = 1;
+                $matched{ $num->line_number } = $num;
             }
         );
 
         if (%matched) {
-            print_file_linenum_line($doc->filename, \%matched);
+            if ($opts{o}) {
+                print_only_matching($doc->filename, \%matched);
+            }
+            else {
+                print_file_linenum_line($doc->filename, \%matched);
+            }
         }
     }
 );

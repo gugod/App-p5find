@@ -15,6 +15,7 @@ our @EXPORT_OK = qw(
                        p5_source_file_iterator
                        p5_method_call_iterator
                        print_file_linenum_line
+                       print_only_matching
                        iter_each
                );
 
@@ -74,6 +75,14 @@ sub print_file_linenum_line {
         }
     }
     close($fh);
+}
+
+sub print_only_matching {
+    my ($file, $to_print) = @_;
+
+    for my $line_number (sort { $a <=> $b } keys %$to_print) {
+        print $to_print->{$line_number} . "\n";
+    }
 }
 
 sub p5_method_call_iterator {
