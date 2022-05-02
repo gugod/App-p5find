@@ -41,7 +41,7 @@
    "provides" : {
       "App::p5find" : {
          "file" : "lib/App/p5find.pm",
-         "version" : "0.05"
+         "version" : "0.06"
       }
    },
    "release_status" : "stable",
@@ -55,8 +55,8 @@
          "web" : "https://github.com/gugod/App-p5find"
       }
    },
-   "version" : "0.05",
-   "x_serialization_backend" : "JSON::PP version 4.06",
+   "version" : "0.06",
+   "x_serialization_backend" : "JSON::PP version 4.07",
    "x_spdx_expression" : "MIT",
    "x_static_install" : "1"
 }

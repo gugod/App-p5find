@@ -1,3 +1,6 @@
+0.06
+   - Fix a crash when visiting some non-perl source files.
+
 0.05    2021-10-01T08:38:30+0900
    - Add "p5find" master command
    - Add "p5find-help" command
