@@ -4,7 +4,7 @@ use warnings;
 use File::Which qw(which);
 
 my $cmd = shift @ARGV;
-$cmd //= "help";
+$cmd = "help" if !defined($cmd) || $cmd eq "-h";
 
 my $finder = which("p5find-$cmd")
     or die "Unknown: $cmd\n";
