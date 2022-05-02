@@ -14,6 +14,29 @@ DESCRIPTION
     to the point that it becomes usefull for tasks such as hunting for
     anti-patterns.
 
+The p5find command
+
+    This distribution gives you a dozen of commands, all named like
+    p5find-something, as well as master command name just p5find. The
+    command name usually refer to a type of object or code pattern that can
+    be located by running that command. For example, p5find-num would list
+    up all number literals, while p5find-str would list up all string
+    literals.
+
+    Except for a few special ones, running all p5find commands would start
+    iterating all perl source find under current working directory then
+    looking for the specified code pattern.
+
+    For example, to locate string literals, run: p5find str (or
+    p5find-str). To see all options of the command, pass -h. Or for
+    slightly more reading materials, run perldoc p5find-str.
+
+    Conventionally the documentation all p5find commands can be revealed by
+    invoking it with -h, or by running perldoc on it.
+
+    To start understanding the usages of p5find, run: p5find help, or
+    p5find-help
+
 AUTHOR
 
     Kang-min Liu <gugod@gugod.org>

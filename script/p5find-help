@@ -13,25 +13,35 @@ __END__
 
 =head1 Objects
 
-p5find can locate various type of objects in, roughly in these
-categories. Some directly map to certain type of L<PPI::Token>, some
-are computed, some even depends on the state of code repository it is
-searching.
+p5find can locate various type of objects in the following categories.
+Each item in the lists are the name of such object that can be located
+by p5find. For example, running C<p5find regex> would list up all
+regular expressions under current working directory.
 
-=head2 Primitive type of objects
+The names these objects also correspond to their specific p5find
+commands. For example the command C<p5find-regex> is the one that does
+the actual search as well as the one with documentation for its own,
+which can be revealed by running C<perldoc p5find-regex>.  The
+documentation for all object can also be revealed similarly using
+C<perldoc>.
 
-  num
-  regex
-  str
-  sub
-  token
+=head2 Primitive types
 
-=head2 Compound type of objects
+  - num
+  - regex
+  - str
+  - sub
+  - token
 
-  method-call
-  statement
+=head2 Compound types
 
-=head2 Objects that should probably be removed
+  - method-call
+  - statement
 
-  unused-packages
-  words-used-only-once
+=head2 Things that should probably be removed
+
+  - unused-package
+  - words-used-only-once
+
+Keep in mind that these type of objects depend on the search range (if
+you search the entire internet perhaps nothing is unused.).
